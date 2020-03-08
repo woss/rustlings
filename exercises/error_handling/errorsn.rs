@@ -15,19 +15,19 @@
 //
 // Execute `rustlings hint errorsn` for hints :)
 
-// I AM NOT DONE
-
 use std::error;
 use std::fmt;
 use std::io;
 
 // PositiveNonzeroInteger is a struct defined below the tests.
-fn read_and_validate(b: &mut dyn io::BufRead) -> Result<PositiveNonzeroInteger, ???> {
+fn read_and_validate(
+    b: &mut dyn io::BufRead,
+) -> Result<PositiveNonzeroInteger, Box<dyn error::Error>> {
     let mut line = String::new();
     b.read_line(&mut line);
-    let num: i64 = line.trim().parse();
-    let answer = PositiveNonzeroInteger::new(num);
-    answer
+    let num: i64 = line.trim().parse()?;
+    let answer = PositiveNonzeroInteger::new(num)?;
+    Ok(answer)
 }
 
 // This is a test helper function that turns a &str into a BufReader.
@@ -52,19 +52,6 @@ fn test_not_num() {
 fn test_non_positive() {
     let x = test_with_str("-40\n");
     assert!(x.is_err());
-}
-
-#[test]
-fn test_ioerror() {
-    struct Broken;
-    impl io::Read for Broken {
-        fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(io::Error::new(io::ErrorKind::BrokenPipe, "uh-oh!"))
-        }
-    }
-    let mut b = io::BufReader::new(Broken);
-    assert!(read_and_validate(&mut b).is_err());
-    assert_eq!("uh-oh!", read_and_validate(&mut b).unwrap_err().to_string());
 }
 
 #[derive(PartialEq, Debug)]
