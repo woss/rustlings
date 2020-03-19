@@ -1,6 +1,13 @@
 // iterators4.rs
 
-// I AM NOT DONE
+
+
+// https://en.wikipedia.org/wiki/Factorial
+// In mathematics, the factorial of a positive integer n, denoted by n!, is the product of all positive integers less than or equal to n:
+// For example,
+
+// 5! = 5 x 4 x 3 x 2 x 1 = 120
+
 
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return factorial of num
@@ -12,6 +19,14 @@ pub fn factorial(num: u64) -> u64 {
     // For the most fun don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+    let mut f: u64 = 1;
+
+    
+    for n in 1..=num {
+        f =  f * n
+    }
+
+    f
 }
 
 #[cfg(test)]
