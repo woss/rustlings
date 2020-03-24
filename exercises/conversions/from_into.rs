@@ -18,7 +18,6 @@ impl Default for Person {
     }
 }
 
-// I AM NOT DONE
 // Your task is to complete this implementation
 // in order for the line `let p = Person::from("Mark,20")` to compile
 // Please note that you'll need to parse the age component into a `usize`
@@ -34,6 +33,20 @@ impl Default for Person {
 // Otherwise, then return an instantiated Person onject with the results
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            Person {
+                ..Person::default()
+            }
+        } else {
+            let sp: Vec<&str> = s.split(",").collect();
+
+            Person {
+                name: String::from(sp[0]),
+                age: sp[1].parse::<usize>().unwrap(),
+                // parse it into the usize and UNWRAP to get the value instead of result
+                // https://doc.rust-lang.org/std/primitive.str.html#method.parse
+            }
+        }
     }
 }
 
